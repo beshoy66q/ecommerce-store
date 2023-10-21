@@ -1,4 +1,4 @@
-import { createContext, useState, Component, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 import { onStateChanged, signOutUser } from "../utils/firebase/firebase";
 

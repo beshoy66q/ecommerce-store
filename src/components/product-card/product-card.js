@@ -8,8 +8,6 @@ const ProductCard = ({props}) => {
 
     const {addItemToCart} = useContext(CartContext)
     const {name, imageUrl, price} = props;
-
-
     const addProductToCart = () => {
         addItemToCart(props)
     }

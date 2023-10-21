@@ -42,32 +42,42 @@ const firebaseConfig = {
   export const db = getFirestore();
 
 
-  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  export const addCollectionsAndDocs = async (collectionKey, objectsToAdd) => {
          const collectionRef = collection(db, collectionKey);
+
          const batch = writeBatch(db);
 
          objectsToAdd.forEach(object => {
           const docRef = doc(collectionRef, object.title.toLowerCase());
-          batch.set(docRef, object)
+          setDoc(docRef, object);
+
          });
 
-         await batch.commit();
+        await batch.commit()
+        console.log("finished")
   }
 
-  export const getCollectionAndDocs = async () => {
-        const collectionRef = doc(db, "categories");
-        const q = query(collectionRef);
+  export const getDocsAndData = async () => {
+    const  collectionRef = collection(db, "categories");
+    const q = query(collectionRef);
 
-        const querySnapShot = await getDocs(q);
+    const querySnaphot = await getDocs(q);
 
-        const categoriesMap = querySnapShot.docs.reduce((acc,docSnapShot) => {
-          const { title, items } = docSnapShot.data();
+    const categoriesMap = querySnaphot.docs.reduce((acc, docSnapShot) => {
+          const {title, items} = docSnapShot.data();
 
           acc[title.toLowerCase()] = items;
+
           return acc;
-        }, {})
-        return categoriesMap;
-  }
+        
+    },{})
+
+
+    return categoriesMap
+
+
+  };
+
   
   export const createUserDocumentFromAuth = async (userAuth) => {
     if(!userAuth) return;
